@@ -1,6 +1,5 @@
 # web_go
 
-* `go install`できるように、まずリポジトリのルートディレクトリで以下のコマンドを実行する
-  * `export GOPATH=$(pwd)`
-
-* `go install first_webapp` で、`${GOPATH}/src`配下からfirst_webappを探し、該当するソースをコンパイルしてくれる
+* directory構成は`$GOPATH/web_go/`になっている
+  * `go install web_go/first_webapp` で、`${GOPATH}/src/web_go/`配下からfirst_webappを探し、該当するソースをコンパイルしてくれる
+  * コンパイルされたバイナリは、`$GOPATH/bin/` に格納される
