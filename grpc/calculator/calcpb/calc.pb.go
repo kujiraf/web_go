@@ -29,8 +29,7 @@ type Nums struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Num_1 int64 `protobuf:"varint,1,opt,name=num_1,json=num1,proto3" json:"num_1,omitempty"`
-	Num_2 int64 `protobuf:"varint,2,opt,name=num_2,json=num2,proto3" json:"num_2,omitempty"`
+	Nums []int64 `protobuf:"varint,1,rep,packed,name=nums,proto3" json:"nums,omitempty"`
 }
 
 func (x *Nums) Reset() {
@@ -65,61 +64,7 @@ func (*Nums) Descriptor() ([]byte, []int) {
 	return file_calculator_calcpb_calc_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Nums) GetNum_1() int64 {
-	if x != nil {
-		return x.Num_1
-	}
-	return 0
-}
-
-func (x *Nums) GetNum_2() int64 {
-	if x != nil {
-		return x.Num_2
-	}
-	return 0
-}
-
-type SumRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Nums *Nums `protobuf:"bytes,1,opt,name=nums,proto3" json:"nums,omitempty"`
-}
-
-func (x *SumRequest) Reset() {
-	*x = SumRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_calculator_calcpb_calc_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *SumRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SumRequest) ProtoMessage() {}
-
-func (x *SumRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_calculator_calcpb_calc_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SumRequest.ProtoReflect.Descriptor instead.
-func (*SumRequest) Descriptor() ([]byte, []int) {
-	return file_calculator_calcpb_calc_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *SumRequest) GetNums() *Nums {
+func (x *Nums) GetNums() []int64 {
 	if x != nil {
 		return x.Nums
 	}
@@ -137,7 +82,7 @@ type SumResponse struct {
 func (x *SumResponse) Reset() {
 	*x = SumResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_calculator_calcpb_calc_proto_msgTypes[2]
+		mi := &file_calculator_calcpb_calc_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -150,7 +95,7 @@ func (x *SumResponse) String() string {
 func (*SumResponse) ProtoMessage() {}
 
 func (x *SumResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_calculator_calcpb_calc_proto_msgTypes[2]
+	mi := &file_calculator_calcpb_calc_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -163,7 +108,7 @@ func (x *SumResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SumResponse.ProtoReflect.Descriptor instead.
 func (*SumResponse) Descriptor() ([]byte, []int) {
-	return file_calculator_calcpb_calc_proto_rawDescGZIP(), []int{2}
+	return file_calculator_calcpb_calc_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *SumResponse) GetResult() string {
@@ -178,19 +123,14 @@ var File_calculator_calcpb_calc_proto protoreflect.FileDescriptor
 var file_calculator_calcpb_calc_proto_rawDesc = []byte{
 	0x0a, 0x1c, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2f, 0x63, 0x61, 0x6c,
 	0x63, 0x70, 0x62, 0x2f, 0x63, 0x61, 0x6c, 0x63, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0a,
-	0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x22, 0x30, 0x0a, 0x04, 0x4e, 0x75,
-	0x6d, 0x73, 0x12, 0x13, 0x0a, 0x05, 0x6e, 0x75, 0x6d, 0x5f, 0x31, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x03, 0x52, 0x04, 0x6e, 0x75, 0x6d, 0x31, 0x12, 0x13, 0x0a, 0x05, 0x6e, 0x75, 0x6d, 0x5f, 0x32,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x04, 0x6e, 0x75, 0x6d, 0x32, 0x22, 0x32, 0x0a, 0x0a,
-	0x53, 0x75, 0x6d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x24, 0x0a, 0x04, 0x6e, 0x75,
-	0x6d, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75,
-	0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x4e, 0x75, 0x6d, 0x73, 0x52, 0x04, 0x6e, 0x75, 0x6d, 0x73,
-	0x22, 0x25, 0x0a, 0x0b, 0x53, 0x75, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
-	0x16, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x32, 0x4a, 0x0a, 0x0a, 0x53, 0x75, 0x6d, 0x53, 0x65,
-	0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x3c, 0x0a, 0x07, 0x43, 0x61, 0x6c, 0x63, 0x53, 0x75, 0x6d,
-	0x12, 0x16, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x53, 0x75,
-	0x6d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x17, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75,
+	0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f, 0x72, 0x22, 0x1a, 0x0a, 0x04, 0x4e, 0x75,
+	0x6d, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x75, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x03,
+	0x52, 0x04, 0x6e, 0x75, 0x6d, 0x73, 0x22, 0x25, 0x0a, 0x0b, 0x53, 0x75, 0x6d, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x32, 0x44, 0x0a,
+	0x0a, 0x53, 0x75, 0x6d, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x36, 0x0a, 0x07, 0x43,
+	0x61, 0x6c, 0x63, 0x53, 0x75, 0x6d, 0x12, 0x10, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61,
+	0x74, 0x6f, 0x72, 0x2e, 0x4e, 0x75, 0x6d, 0x73, 0x1a, 0x17, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x75,
 	0x6c, 0x61, 0x74, 0x6f, 0x72, 0x2e, 0x53, 0x75, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
 	0x65, 0x22, 0x00, 0x42, 0x13, 0x5a, 0x11, 0x63, 0x61, 0x6c, 0x63, 0x75, 0x6c, 0x61, 0x74, 0x6f,
 	0x72, 0x2f, 0x63, 0x61, 0x6c, 0x63, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
@@ -208,21 +148,19 @@ func file_calculator_calcpb_calc_proto_rawDescGZIP() []byte {
 	return file_calculator_calcpb_calc_proto_rawDescData
 }
 
-var file_calculator_calcpb_calc_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_calculator_calcpb_calc_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_calculator_calcpb_calc_proto_goTypes = []interface{}{
 	(*Nums)(nil),        // 0: calculator.Nums
-	(*SumRequest)(nil),  // 1: calculator.SumRequest
-	(*SumResponse)(nil), // 2: calculator.SumResponse
+	(*SumResponse)(nil), // 1: calculator.SumResponse
 }
 var file_calculator_calcpb_calc_proto_depIdxs = []int32{
-	0, // 0: calculator.SumRequest.nums:type_name -> calculator.Nums
-	1, // 1: calculator.SumService.CalcSum:input_type -> calculator.SumRequest
-	2, // 2: calculator.SumService.CalcSum:output_type -> calculator.SumResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: calculator.SumService.CalcSum:input_type -> calculator.Nums
+	1, // 1: calculator.SumService.CalcSum:output_type -> calculator.SumResponse
+	1, // [1:2] is the sub-list for method output_type
+	0, // [0:1] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_calculator_calcpb_calc_proto_init() }
@@ -244,18 +182,6 @@ func file_calculator_calcpb_calc_proto_init() {
 			}
 		}
 		file_calculator_calcpb_calc_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SumRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_calculator_calcpb_calc_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*SumResponse); i {
 			case 0:
 				return &v.state
@@ -274,7 +200,7 @@ func file_calculator_calcpb_calc_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_calculator_calcpb_calc_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -300,7 +226,7 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type SumServiceClient interface {
-	CalcSum(ctx context.Context, in *SumRequest, opts ...grpc.CallOption) (*SumResponse, error)
+	CalcSum(ctx context.Context, in *Nums, opts ...grpc.CallOption) (*SumResponse, error)
 }
 
 type sumServiceClient struct {
@@ -311,7 +237,7 @@ func NewSumServiceClient(cc grpc.ClientConnInterface) SumServiceClient {
 	return &sumServiceClient{cc}
 }
 
-func (c *sumServiceClient) CalcSum(ctx context.Context, in *SumRequest, opts ...grpc.CallOption) (*SumResponse, error) {
+func (c *sumServiceClient) CalcSum(ctx context.Context, in *Nums, opts ...grpc.CallOption) (*SumResponse, error) {
 	out := new(SumResponse)
 	err := c.cc.Invoke(ctx, "/calculator.SumService/CalcSum", in, out, opts...)
 	if err != nil {
@@ -322,14 +248,14 @@ func (c *sumServiceClient) CalcSum(ctx context.Context, in *SumRequest, opts ...
 
 // SumServiceServer is the server API for SumService service.
 type SumServiceServer interface {
-	CalcSum(context.Context, *SumRequest) (*SumResponse, error)
+	CalcSum(context.Context, *Nums) (*SumResponse, error)
 }
 
 // UnimplementedSumServiceServer can be embedded to have forward compatible implementations.
 type UnimplementedSumServiceServer struct {
 }
 
-func (*UnimplementedSumServiceServer) CalcSum(context.Context, *SumRequest) (*SumResponse, error) {
+func (*UnimplementedSumServiceServer) CalcSum(context.Context, *Nums) (*SumResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CalcSum not implemented")
 }
 
@@ -338,7 +264,7 @@ func RegisterSumServiceServer(s *grpc.Server, srv SumServiceServer) {
 }
 
 func _SumService_CalcSum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SumRequest)
+	in := new(Nums)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -350,7 +276,7 @@ func _SumService_CalcSum_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: "/calculator.SumService/CalcSum",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SumServiceServer).CalcSum(ctx, req.(*SumRequest))
+		return srv.(SumServiceServer).CalcSum(ctx, req.(*Nums))
 	}
 	return interceptor(ctx, in, info, handler)
 }

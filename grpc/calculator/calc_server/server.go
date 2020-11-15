@@ -28,10 +28,13 @@ func main() {
 	}
 }
 
-func (*server) CalcSum(ctx context.Context, req *calcpb.SumRequest) (*calcpb.SumResponse, error) {
+func (*server) CalcSum(ctx context.Context, req *calcpb.Nums) (*calcpb.SumResponse, error) {
 	fmt.Printf("Calc function was invoked with %v\n", req)
 	nums := req.GetNums()
-	result := nums.GetNum_1() + nums.GetNum_2()
+	var result int
+	for _, v := range nums {
+		result += int(v)
+	}
 	res := &calcpb.SumResponse{
 		Result: fmt.Sprintf("ans=%d", result),
 	}

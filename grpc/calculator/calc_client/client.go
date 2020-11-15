@@ -29,30 +29,23 @@ func main() {
 	doSum(c, nums)
 }
 
-func getArgs() ([]int, error) {
+func getArgs() ([]int64, error) {
 	flag.Parse()
-	args := flag.Args()
-	if len(args) < 2 {
-		return nil, errors.New("please input more than 2 numbers args")
-	}
-	var nums []int
-	for _, v := range args {
+	var nums []int64
+	for _, v := range flag.Args() {
 		num, err := strconv.Atoi(v)
 		if err != nil {
 			return nil, errors.New("please input only number")
 		}
-		nums = append(nums, num)
+		nums = append(nums, int64(num))
 	}
 	return nums, nil
 }
 
-func doSum(c calcpb.SumServiceClient, nums []int) {
+func doSum(c calcpb.SumServiceClient, nums []int64) {
 	fmt.Println("[doSum] Starting to do a Unary RPC...")
-	req := &calcpb.SumRequest{
-		Nums: &calcpb.Nums{
-			Num_1: int64(nums[0]),
-			Num_2: int64(nums[1]),
-		},
+	req := &calcpb.Nums{
+		Nums: nums,
 	}
 	res, err := c.CalcSum(context.Background(), req)
 	if err != nil {

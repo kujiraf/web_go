@@ -3,15 +3,10 @@ syntax = "proto3";
 package calculator;
 option go_package = "calculator/calcpb";
 
-message Nums {
-  int64 num_1 = 1;
-  int64 num_2 = 2;
-}
-
-message SumRequest { Nums nums = 1; }
+message Nums { repeated int64 nums = 1; }
 
 message SumResponse { string result = 1; }
 
 service SumService {
-  rpc CalcSum(SumRequest) returns (SumResponse) {};
+  rpc CalcSum(Nums) returns (SumResponse) {};
 }
