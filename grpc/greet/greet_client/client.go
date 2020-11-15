@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
 	"web_go/grpc/greet/greetpb"
 
@@ -17,12 +18,13 @@ func main() {
 	}
 	defer conn.Close() // deferにより、メソッド内の処理が終了するまでcloseを待つ。
 
-	c := greetpb.NewGreetServeceClient(conn)
+	c := greetpb.NewGreetServiceClient(conn)
 	// fmt.Printf("Created client: %f", c)
-	doUnary(c)
+	// doUnary(c)
+	doServerStreaming(c)
 }
 
-func doUnary(c greetpb.GreetServeceClient) {
+func doUnary(c greetpb.GreetServiceClient) {
 	fmt.Println("Starting to do a Unary RPC...")
 	req := &greetpb.GreetRequest{
 		Greeting: &greetpb.Greeting{
@@ -35,4 +37,29 @@ func doUnary(c greetpb.GreetServeceClient) {
 		log.Fatalf("error while calling Greet RPC: %v", err)
 	}
 	log.Printf("Response from Greet: %v", res.Result)
+}
+
+func doServerStreaming(c greetpb.GreetServiceClient) {
+	fmt.Println("Starting to do a ServerStreaming RPC...")
+
+	req := &greetpb.GreetManyTimesRequest{
+		Greeting: &greetpb.Greeting{
+			FirstName: "takuro",
+			LastName:  "furukawa",
+		},
+	}
+	resultStream, err := c.GreetManyTimes(context.Background(), req)
+	if err != nil {
+		log.Fatalf("error while calling GreetManyTimes RPC: %v", err)
+	}
+	for {
+		msg, err := resultStream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatalf("error while reading stream: %v", err)
+		}
+		log.Printf("Response from GreetManyTimes: %v", msg.GetResult())
+	}
 }
