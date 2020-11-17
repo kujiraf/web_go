@@ -5,6 +5,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"strconv"
 	"web_go/grpc/calculator/calcpb"
@@ -25,8 +26,9 @@ func main() {
 	}
 	defer conn.Close()
 
-	c := calcpb.NewSumServiceClient(conn)
-	doSum(c, nums)
+	c := calcpb.NewCalcServiceClient(conn)
+	// doSum(c, nums)
+	doFindPrimeComposition(c, nums)
 }
 
 func getArgs() ([]int64, error) {
@@ -42,7 +44,7 @@ func getArgs() ([]int64, error) {
 	return nums, nil
 }
 
-func doSum(c calcpb.SumServiceClient, nums []int64) {
+func doSum(c calcpb.CalcServiceClient, nums []int64) {
 	fmt.Println("[doSum] Starting to do a Unary RPC...")
 	req := &calcpb.Nums{
 		Nums: nums,
@@ -52,4 +54,25 @@ func doSum(c calcpb.SumServiceClient, nums []int64) {
 		log.Fatalf("error while calling CalcSum RPC: %v", err)
 	}
 	log.Printf("Response from CalcSum: %v", res.Result)
+}
+
+func doFindPrimeComposition(c calcpb.CalcServiceClient, nums []int64) {
+	fmt.Println("[doFindPrimeComposition] Starting to do a Unary RPC...")
+	req := &calcpb.Nums{
+		Nums: nums,
+	}
+	res, err := c.PrimeNumberDecomposition(context.Background(), req)
+	if err != nil {
+		log.Fatalf("error while calling PrimeNumberDecomposition RPC: %v", err)
+	}
+	for {
+		msg, err := res.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatalf("error while receiving PrimeNumberDecomposition RPC: %v", err)
+		}
+		log.Printf("Response from PrimeNumberDecomposition: %v", msg.GetResult())
+	}
 }
