@@ -8,6 +8,7 @@ import (
 	"io"
 	"log"
 	"strconv"
+	"time"
 	"web_go/grpc/calculator/calcpb"
 
 	"google.golang.org/grpc"
@@ -28,7 +29,8 @@ func main() {
 
 	c := calcpb.NewCalcServiceClient(conn)
 	// doSum(c, nums)
-	doFindPrimeComposition(c, nums)
+	// doFindPrimeComposition(c, nums)
+	doComputeAverage(c, nums)
 }
 
 func getArgs() ([]int64, error) {
@@ -75,4 +77,26 @@ func doFindPrimeComposition(c calcpb.CalcServiceClient, nums []int64) {
 		}
 		log.Printf("Response from PrimeNumberDecomposition: %v", msg.GetResult())
 	}
+}
+
+func doComputeAverage(c calcpb.CalcServiceClient, nums []int64) {
+
+	stream, err := c.ComputeAverage(context.Background())
+	if err != nil {
+		log.Fatalf("error while calling ComputeAverage RPC: %v", err)
+	}
+
+	for _, v := range nums {
+		fmt.Printf("Sending num:%v\n", v)
+		stream.Send(&calcpb.Num{
+			Num: v,
+		})
+		time.Sleep(100 * time.Millisecond)
+	}
+
+	res, err := stream.CloseAndRecv()
+	if err != nil {
+		log.Fatalf("error received :%v", err)
+	}
+	fmt.Printf("ComputeAverage Response :%v", res)
 }

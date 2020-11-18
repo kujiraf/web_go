@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"strconv"
@@ -88,4 +89,29 @@ func send(msg string, stream calcpb.CalcService_PrimeNumberDecompositionServer) 
 		Result: msg,
 	}
 	stream.Send(res)
+}
+
+func (*server) ComputeAverage(stream calcpb.CalcService_ComputeAverageServer) error {
+	fmt.Printf("ComputeAverage function was called")
+	var nums []int
+	count := 0
+	for {
+		req, err := stream.Recv()
+		if err == io.EOF {
+			ave := 0.0
+			for _, v := range nums {
+				ave += float64(v)
+			}
+			ave = ave / float64(count)
+			stream.SendAndClose(&calcpb.Average{
+				Result: fmt.Sprintf("average of %d :%f", nums, ave),
+			})
+			return nil
+		}
+		if err != nil {
+			log.Fatalf("error while listening :%v", err)
+		}
+		nums = append(nums, int(req.GetNum()))
+		count++
+	}
 }
