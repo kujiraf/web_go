@@ -62,8 +62,6 @@ func Race() {
 	var wg sync.WaitGroup
 	wg.Add(gs) // いくつのgo routineを待って関数を完了するかを設定する
 
-	var mu sync.Mutex
-
 	for i := 0; i < gs; i++ {
 		go func() {
 			v := counter
