@@ -30,7 +30,8 @@ func main() {
 	c := calcpb.NewCalcServiceClient(conn)
 	// doSum(c, nums)
 	// doFindPrimeComposition(c, nums)
-	doComputeAverage(c, nums)
+	// doComputeAverage(c, nums)
+	doFindMaximum(c, nums)
 }
 
 func getArgs() ([]int64, error) {
@@ -99,4 +100,44 @@ func doComputeAverage(c calcpb.CalcServiceClient, nums []int64) {
 		log.Fatalf("error received :%v", err)
 	}
 	fmt.Printf("ComputeAverage Response :%v", res)
+}
+
+func doFindMaximum(c calcpb.CalcServiceClient, nums []int64) {
+	fmt.Println("called doFindMaximum")
+
+	stream, err := c.FindMaximum(context.Background())
+	if err != nil {
+		log.Fatalf("Error :%v", err)
+	}
+
+	wcwait := make(chan struct{})
+	go func(funcname string) {
+		fmt.Println(funcname)
+		for _, v := range nums {
+			fmt.Printf("sending num :%d\n", v)
+			stream.Send(&calcpb.Num{
+				Num: v,
+			})
+			time.Sleep(1000 * time.Millisecond)
+		}
+		stream.CloseSend()
+	}("send")
+
+	go func() {
+		for {
+			res, err := stream.Recv()
+			if err == io.EOF {
+				fmt.Println("IO Error")
+				break
+			}
+			if err != nil {
+				fmt.Printf("Error while receiving :%v\n", err)
+				break
+			}
+			fmt.Printf("<response> :%v\n", res)
+		}
+		close(wcwait)
+	}()
+
+	<-wcwait
 }

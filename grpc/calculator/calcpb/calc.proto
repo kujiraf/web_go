@@ -13,9 +13,12 @@ message PrimeNumberDecompositionResponse { string result = 1; }
 
 message Average { string result = 1; }
 
+message Maximum { string result = 1; }
+
 service CalcService {
   rpc CalcSum(Nums) returns (SumResponse) {};
   rpc PrimeNumberDecomposition(Nums)
       returns (stream PrimeNumberDecompositionResponse) {};
   rpc ComputeAverage(stream Num) returns (Average) {};
+  rpc FindMaximum(stream Num) returns (stream Maximum) {};
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math"
 	"net"
 	"strconv"
 	"time"
@@ -113,5 +114,32 @@ func (*server) ComputeAverage(stream calcpb.CalcService_ComputeAverageServer) er
 		}
 		nums = append(nums, int(req.GetNum()))
 		count++
+	}
+}
+
+func (*server) FindMaximum(stream calcpb.CalcService_FindMaximumServer) error {
+	fmt.Println("called FindMaximum")
+	min := math.MinInt64
+	max := int64(min)
+	for {
+		req, err := stream.Recv()
+		if err == io.EOF {
+			fmt.Println("EOF")
+			return err
+		}
+		if err != nil {
+			fmt.Println("Error occured")
+			return err
+		}
+		tmp := req.GetNum()
+		if max < tmp {
+			max = tmp
+			if err := stream.Send(&calcpb.Maximum{
+				Result: fmt.Sprintf("max is %d", max),
+			}); err != nil {
+				fmt.Printf("Error while Sending :%v\n", err)
+				return err
+			}
+		}
 	}
 }
